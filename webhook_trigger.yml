@@ -1,0 +1,28 @@
+name: Trigger Script Repository Action
+
+on:
+  push:
+    branches:
+      - main  # or the branch you want to monitor
+  schedule:
+    - cron: '0 21 * * *'  # Runs at 21:00 (9:00 PM) UTC every day
+
+jobs:
+  trigger-action:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Trigger Script Repository Action
+      env:
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      run: |
+        FOLDER_PATH="./data"  # Assuming your markdown files are in the root of the target repository
+        CONFLUENCE_SPACE="Repo"  # Replace with the actual Confluence space key
+        PARENT_PAGE_ID="18579525"  # Replace with the actual parent page ID
+        curl -X POST -H "Accept: application/vnd.github.everest-preview+json" \
+             -H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
+             https://api.github.com/repos/QuincyRom/github-to-confluence-publisher-main/dispatches \
+             -d "{\"event_type\":\"run-script\",\"client_payload\":{\"folder\":\"$FOLDER_PATH\",\"confluence_space\":\"$CONFLUENCE_SPACE\",\"parent_page_id\":\"$PARENT_PAGE_ID\"}}"
