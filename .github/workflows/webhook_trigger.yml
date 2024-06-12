@@ -20,7 +20,7 @@ jobs:
         PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
         FOLDER_PATH="/data"  # Assuming your markdown files are in the root of the target repository
-        CONFLUENCE_SPACE="Repo"  # Replace with the actual Confluence space key
+        CONFLUENCE_SPACE="repo"  # Replace with the actual Confluence space key
         PARENT_PAGE_ID="18579525"  # Replace with the actual parent page ID
         curl -X POST -H "Accept: application/vnd.github.everest-preview+json" \
              -H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
